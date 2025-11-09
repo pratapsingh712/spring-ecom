@@ -18,6 +18,7 @@ public class ProductService {
     }
 
     public Product getProductByID(int id) {
-        return productRepo.findById(id).get(); // it's not recommended to use .get()
+        //return productRepo.findById(id).get(); // it's not recommended to use .get()
+        return productRepo.findById(id).orElse(new Product(-1));
     }
 }
