@@ -6,3 +6,22 @@ VALUES
 ('Dell XPS 13', 'Dell XPS 13 Ultrabook', 'Dell', 1299.99, 'laptop', '2023-04-01', true, 25),
 ('Levi Jeans', 'Classic Levi Jeans', 'Levi', 59.99, 'fashion', '2023-05-01', true, 100),
 ('Lego Set', 'Lego Star Wars Set', 'Lego', 79.99, 'toy', '2023-06-01', true, 40);
+
+
+INSERT INTO product (name, description, brand, price, category, release_date, product_available, stock_quantity)
+VALUES
+-- Phones
+('Galaxy Z Fold 6', 'Next-gen foldable smartphone with dual AMOLED displays and powerful Snapdragon processor.', 'Samsung', 1799.00, 'Phone', '2025-08-15', TRUE, 120),
+('iPhone 16 Pro', 'Flagship iPhone featuring A18 Bionic chip, titanium design, and advanced AI camera features.', 'Apple', 1199.00, 'Phone', '2025-09-22', TRUE, 80),
+('Pixel 9', 'Sleek Android device powered by Google Tensor G4 chip with exceptional photography capabilities.', 'Google', 899.00, 'Phone', '2025-07-10', TRUE, 200),
+
+-- Laptops
+('MacBook Air M4', 'Ultra-thin laptop powered by the M4 chip with all-day battery life and stunning Retina display.', 'Apple', 1499.00, 'Laptop', '2025-03-18', TRUE, 60),
+('Dell XPS 15 Plus', 'Premium Windows laptop featuring a near-borderless OLED display and 13th Gen Intel Core i9.', 'Dell', 1899.00, 'Laptop', '2025-06-05', TRUE, 45),
+('ASUS ROG Zephyrus G16', 'High-performance gaming laptop with RTX 4080 graphics and 240Hz QHD display.', 'ASUS', 2199.00, 'Laptop', '2025-04-10', TRUE, 35),
+('Lenovo ThinkPad X1 Carbon Gen 12', 'Lightweight business laptop with enhanced AI collaboration tools and long battery life.', 'Lenovo', 1799.00, 'Laptop', '2025-05-02', TRUE, 55),
+
+-- Headphones
+('Sony WH-1000XM6', 'Industry-leading noise cancellation with immersive spatial sound and 40-hour battery life.', 'Sony', 499.00, 'Headphone', '2025-02-25', TRUE, 150),
+('Bose QuietComfort Ultra', 'Premium wireless headphones with adaptive noise cancellation and crisp audio clarity.', 'Bose', 429.00, 'Headphone', '2025-03-15', TRUE, 110),
+('AirPods Max 2', 'Luxury over-ear headphones with advanced spatial audio and adaptive EQ for ultimate sound experience.', 'Apple', 549.00, 'Headphone', '2025-09-10', TRUE, 90);

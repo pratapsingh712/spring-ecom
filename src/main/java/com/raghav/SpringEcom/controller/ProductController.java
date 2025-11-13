@@ -3,7 +3,10 @@ package com.raghav.SpringEcom.controller;
 import com.raghav.SpringEcom.model.Product;
 import com.raghav.SpringEcom.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,7 +27,7 @@ public class ProductController {
         return new ResponseEntity<>(productService.getAllProducts(), HttpStatus.ACCEPTED);
     }
 
-    @GetMapping("/products/{id}")
+    @GetMapping("/product/{id}")
     public ResponseEntity<Product> getProductById(@PathVariable int id){
         Product product = productService.getProductByID(id);
 
@@ -32,6 +35,32 @@ public class ProductController {
             return new ResponseEntity<>(product, HttpStatus.OK);
         else
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+//    @GetMapping("product/{productID}/image")
+//    public ResponseEntity<byte[]> getImageByProductId(@PathVariable int productId){
+//        Product product = productService.getProductByID(productId);
+//        if(product.getId() >= 0)
+//            return new ResponseEntity<>(product.getImageData(), HttpStatus.OK);
+//        else
+//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//    }
+
+    @GetMapping(value = "/product/{productId}/image")
+    public ResponseEntity<ByteArrayResource> getImageByProductId(@PathVariable("productId") int productId) {
+        Product product = productService.getProductByID(productId);
+        if (product == null || product.getImageData() == null || product.getImageData().length == 0) {
+            return ResponseEntity.notFound().build();
+        }
+
+        // If you store content type (e.g., "image/png") in product, use it. Fallback to jpeg.
+        String contentType = MediaType.IMAGE_JPEG_VALUE; // default
+
+        ByteArrayResource resource = new ByteArrayResource(product.getImageData());
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(contentType))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + (product.getImageName() != null ? product.getImageName() : "image") + "\"")
+                .body(resource);
     }
 
     @PostMapping("/product")
@@ -42,6 +71,29 @@ public class ProductController {
             return new ResponseEntity<>(savedProduct, HttpStatus.CREATED);
         } catch (IOException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PutMapping("/product/{id}")
+    public ResponseEntity<String> updateProduct(@PathVariable int id, @RequestPart Product product, @RequestPart MultipartFile imageFile){
+        Product updatedProduct = null;
+        try{
+            updatedProduct = productService.updateProduct(product, imageFile);
+            return new ResponseEntity<>("Updated", HttpStatus.OK);
+        }
+        catch (IOException e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @DeleteMapping("product/{id}")
+    public ResponseEntity<String> deleteProduct(@PathVariable int id){
+        Product product = productService.getProductByID(id);
+        if(product!=null){
+            productService.deleteProduct(id);
+            return new ResponseEntity<>("Deleted", HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
