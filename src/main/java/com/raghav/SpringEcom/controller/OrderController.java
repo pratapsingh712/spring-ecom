@@ -24,6 +24,8 @@ public class OrderController {
         return new ResponseEntity<>(orderResponse, HttpStatus.CREATED);
     }
 
+    //not able to call orders place as id's are mismatching from database result of generating id's automatically
+
     @GetMapping("/orders")
     public ResponseEntity<List<OrderResponse>> getAllOrder(){
         List<OrderResponse> responses = orderService.getAllOrderResponses();
